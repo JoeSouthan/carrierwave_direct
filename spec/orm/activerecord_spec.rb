@@ -10,23 +10,45 @@ describe CarrierWaveDirect::ActiveRecord do
     :database => ':memory:'
   }
 
-  class TestMigration < ActiveRecord::Migration
-    def self.up
-      create_table :parties, :force => true do |t|
-        t.column :video, :string
+  if ActiveRecord::VERSION::MAJOR <= 4
+    class TestMigration < ActiveRecord::Migration
+      def self.up
+        create_table :parties, :force => true do |t|
+          t.column :video, :string
+        end
+
+        create_table :dances, :force => true do |t|
+          t.column :location, :string
+        end
+        create_table :resources, :force => true do |t|
+          t.column :file, :string
+        end
       end
 
-      create_table :dances, :force => true do |t|
-        t.column :location, :string
-      end
-      create_table :resources, :force => true do |t|
-        t.column :file, :string
+      def self.down
+        drop_table :parties
+        drop_table :dances
       end
     end
+  else
+    class TestMigration < ActiveRecord::Migration[4.2]
+      def self.up
+        create_table :parties, :force => true do |t|
+          t.column :video, :string
+        end
 
-    def self.down
-      drop_table :parties
-      drop_table :dances
+        create_table :dances, :force => true do |t|
+          t.column :location, :string
+        end
+        create_table :resources, :force => true do |t|
+          t.column :file, :string
+        end
+      end
+
+      def self.down
+        drop_table :parties
+        drop_table :dances
+      end
     end
   end
 

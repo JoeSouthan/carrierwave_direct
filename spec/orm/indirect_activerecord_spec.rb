@@ -10,15 +10,29 @@ describe CarrierWave::ActiveRecord do
     :database => ':memory:'
   }
 
-  class OtherTestMigration < ActiveRecord::Migration
-    def self.up
-      create_table :other_parties, :force => true do |t|
-        t.column :video, :string
+  if ActiveRecord::VERSION::MAJOR <= 4
+    class OtherTestMigration < ActiveRecord::Migration
+      def self.up
+        create_table :other_parties, :force => true do |t|
+          t.column :video, :string
+        end
+      end
+
+      def self.down
+        drop_table :other_parties
       end
     end
+  else
+    class OtherTestMigration < ActiveRecord::Migration[4.2]
+      def self.up
+        create_table :other_parties, :force => true do |t|
+          t.column :video, :string
+        end
+      end
 
-    def self.down
-      drop_table :other_parties
+      def self.down
+        drop_table :other_parties
+      end
     end
   end
 

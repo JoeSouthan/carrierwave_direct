@@ -1,0 +1,12 @@
+source "https://rubygems.org"
+
+gem "carrierwave"
+gem "fog"
+
+group :test do
+  gem "rspec", '3.0.0'
+  gem "timecop"
+  gem "rails", "~> 5.0.3"
+  gem "sqlite3", :platform => [:ruby, :mswin, :mingw]
+  gem "capybara"
+end
